@@ -1,6 +1,6 @@
 <template>
   <div class="avatar-container">
-    <a :href="userUrl" rel="nofollow">
+    <a :href="userUrl" rel="nofollow" target="_blank">
       <img :src="imageUrl" :alt="user" class="avatar"/>
     </a>
   </div>

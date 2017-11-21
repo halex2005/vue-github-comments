@@ -7,29 +7,33 @@
           :userUrl="comment.user.htmlUrl"
           :imageUrl="comment.user.avatarUrl"
         ></avatar-view>
-        <div :id="'issue-comment-' + comment.id" class="comment-container">
-          <h3 class="header">
+        <ul :id="'issue-comment-' + comment.id" class="list-group">
+          <li class="list-group-item list-group-item-info header">
             <strong>
-              <a :href="comment.user.htmlUrl" rel="nofollow">{{comment.user.login}}</a>
+              <a :href="comment.user.htmlUrl" rel="nofollow" target="_blank">
+                {{comment.user.login}}
+              </a>
             </strong>
             commented
-            <a :href="'#issue-comment-' + comment.id" class="timestamp" rel="nofollow">
+            <a :href="'#issue-comment-' + comment.id" rel="nofollow">
               <relative-time :date="comment.createdAt"></relative-time>
             </a>
-          </h3>
-          <div class="content">
-            <div v-html="comment.bodyHtml" class="content-child"></div>
-          </div>
+          </li>
+          <li class="list-group-item">
+            <div v-html="comment.bodyHtml"></div>
+          </li>
+        </ul>
+      </li>
+      <li class="comment-block">
+        <div v-if="showLoader">
+          <i class="fa fa-spin fa-spinner fa-fw fa-2x"></i>
+          <span class="sr-only">Loading...</span>
         </div>
+        <template v-if="!showLoader && canShowMoreComments">
+          <button class="btn btn-success" @click="loadMoreComments">Show more comments</button>
+        </template>
       </li>
     </ul>
-    <template v-if="showLoader">
-      <i class="fa fa-spin fa-spinner fa-fw fa-2x"></i>
-      <span class="sr-only">Loading...</span>
-    </template>
-    <template v-if="!showLoader && canShowMoreComments">
-      <button @click="loadMoreComments">Show more comments</button>
-    </template>
   </div>
 </template>
 
@@ -88,35 +92,11 @@
 
 <style scoped>
   .comments-list {
-    list-style: none;
+    list-style-type: none;
   }
 
   .comment-block {
     margin: 20px 20px 20px 80px;
   }
 
-  .comment-container .header {
-    font-size: 14px;
-    background-color: bisque;
-    padding: 10px 15px 10px 15px;
-    border: #ffa0a0 solid 1px;
-    border-bottom: none;
-    margin: 0;
-    color: gray;
-  }
-
-  .comment-container .content {
-    background-color: cornsilk;
-    padding: 0px 15px 0px 15px;
-    border: #ffa0a0 solid 1px;
-    margin: 0;
-  }
-
-  .content-child {
-    padding: 0;
-  }
-
-  .timestamp {
-    color: inherit;
-  }
 </style>
