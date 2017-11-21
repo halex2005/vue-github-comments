@@ -1,0 +1,42 @@
+{
+  "name": "vue-github-comments",
+  "version": "1.0.0",
+  "description": "Vue.js reusable components implementing controls for viewing and posting github issue comments",
+  "main": "index.js",
+  "scripts": {
+    "dev": "poi run dev src/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halex2005/vue-github-comments.git"
+  },
+  "keywords": [
+    "github",
+    "comments",
+    "vue.js"
+  ],
+  "author": "Aleksei Kharlov aka halex2005",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/halex2005/vue-github-comments/issues"
+  },
+  "homepage": "https://github.com/halex2005/vue-github-comments#readme",
+  "devDependencies": {
+    "eslint": "^4.11.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-config-vue": "^2.0.2",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-react": "^7.5.1",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-plugin-vue": "^2.1.0",
+    "poi": "^9.5.2",
+    "webpack-bundle-analyzer": "^2.9.1"
+  },
+  "dependencies": {
+    "octokat": "^0.9.2",
+    "vue": "^2.5.8"
+  }
+}

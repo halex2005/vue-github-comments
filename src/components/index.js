@@ -1,0 +1,34 @@
+import AvatarView from './AvatarView.vue'
+import GithubCommentsView from './GithubCommentsView.vue'
+import RelativeTime from './RelativeTime.vue'
+import { version } from './../../package.json'
+
+export function install(Vue) {
+  Vue.component('avatar-view', AvatarView)
+  Vue.component('github-comments-view', GithubCommentsView)
+  Vue.component('relative-time', RelativeTime)
+}
+
+export {
+  AvatarView,
+  GithubCommentsView,
+  RelativeTime
+}
+
+const plugin = {
+  install,
+  version
+}
+
+export default plugin
+
+// Auto-install
+let GlobalVue = null
+if (typeof window !== 'undefined') {
+  GlobalVue = window.Vue
+} else if (typeof global !== 'undefined') {
+  GlobalVue = global.Vue
+}
+if (GlobalVue) {
+  GlobalVue.use(plugin)
+}
