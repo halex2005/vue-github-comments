@@ -2,9 +2,10 @@
   "name": "vue-github-comments",
   "version": "1.0.0",
   "description": "Vue.js reusable components implementing controls for viewing and posting github issue comments",
-  "main": "index.js",
+  "main": "dist/GithubComments.js",
   "scripts": {
-    "dev": "poi run dev src/main.js",
+    "dev": "poi dev src/main.js --no-clear",
+    "build": "poi build src/components/index.js --no-clear",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
