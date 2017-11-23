@@ -2,27 +2,14 @@
   <div>
     <ul class="comments-list">
       <li v-for="comment in comments" class="comment-block" :key="comment.id">
-        <avatar-view
-          :user="comment.user.login"
-          :userUrl="comment.user.htmlUrl"
-          :imageUrl="comment.user.avatarUrl"
-        ></avatar-view>
-        <ul :id="'issue-comment-' + comment.id" class="list-group">
-          <li class="list-group-item list-group-item-info header">
-            <strong>
-              <a :href="comment.user.htmlUrl" rel="nofollow" target="_blank">
-                {{comment.user.login}}
-              </a>
-            </strong>
-            commented
-            <a :href="'#issue-comment-' + comment.id" rel="nofollow">
-              <relative-time :date="comment.createdAt"></relative-time>
-            </a>
-          </li>
-          <li class="list-group-item">
-            <div v-html="comment.bodyHtml"></div>
-          </li>
-        </ul>
+        <github-comment-view
+          :commentId="comment.id"
+          :userLogin="comment.user.login"
+          :userProfileUrl="comment.user.htmlUrl"
+          :userAvatarUrl="comment.user.avatarUrl"
+          :publishDate="comment.createdAt"
+          :commentHtmlBody="comment.bodyHtml"
+        ></github-comment-view>
       </li>
       <li class="comment-block">
         <div v-if="showLoader">
@@ -31,18 +18,20 @@
         </div>
         <template v-if="!showLoader && canShowMoreComments">
           <button class="btn btn-success" @click="loadMoreComments">Show more comments</button>
+          <span>{{comments.length}} of {{overallCommentsCount}} comments shown</span>
+        </template>
+        <template v-if="!showLoader && !canShowMoreComments">
+          <span>{{overallCommentsCount}} comments shown</span>
         </template>
       </li>
     </ul>
   </div>
 </template>
-
 <script>
   import Octokat from 'octokat'
-  import AvatarView from './AvatarView.vue'
-  import RelativeTime from './RelativeTime'
+  import GithubCommentView from './GithubCommentView'
   export default {
-    name: 'github-comments-view',
+    name: 'github-comments-list-view',
     props: [
       'apiRoot',
       'owner',
@@ -50,20 +39,31 @@
       'issueNumber'
     ],
     components: {
-      RelativeTime,
-      AvatarView
+      GithubCommentView
     },
-    created: function () {
+    data: function () {
+      return {
+        comments: [],
+        overallCommentsCount: 0,
+        canShowMoreComments: false,
+        showLoader: false
+      }
+    },
+    created: async function() {
       this.showLoader = true
       const octo = new Octokat({
         rootURL: this.apiRoot,
         acceptHeader: 'application/vnd.github.v3.html+json'
       })
-      octo.repos(this.owner, this.repository)
+      const issueRoot = octo
+        .repos(this.owner, this.repository)
         .issues(this.issueNumber)
-        .comments
-        .fetch()
-        .then(this.addComments)
+
+      const issue = await issueRoot.fetch()
+      this.overallCommentsCount = issue.comments
+
+      const comments = await issueRoot.comments.fetch()
+      this.addComments(comments)
     },
     methods: {
       addComments: function (comments) {
@@ -73,23 +73,14 @@
         this.showLoader = false
       },
       loadMoreComments: function () {
-        if (this.nextComments) {
+        if (!this.showLoader && this.nextComments) {
           this.showLoader = true
           this.nextComments.fetch().then(this.addComments)
         }
       }
-    },
-
-    data: function () {
-      return {
-        comments: [],
-        canShowMoreComments: false,
-        showLoader: false
-      }
     }
   }
 </script>
-
 <style scoped>
   .comments-list {
     list-style-type: none;
@@ -98,5 +89,4 @@
   .comment-block {
     margin: 20px 20px 20px 80px;
   }
-
 </style>

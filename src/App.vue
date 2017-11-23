@@ -1,20 +1,20 @@
 <template>
   <div id="app">
-    <github-comments-view
+    <github-comments-list-view
       v-bind="githubSettings"
       :issue-number="issueNumber"
     >
-    </github-comments-view>
+    </github-comments-list-view>
   </div>
 </template>
 
 <script>
-import GithubCommentsView from './components/GithubCommentsView'
+import GithubCommentsListView from './components/GithubCommentsListView'
 
 export default {
   name: 'app',
   components: {
-    GithubCommentsView
+    GithubCommentsListView
   },
   data() {
     return {

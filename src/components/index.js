@@ -1,17 +1,20 @@
 import AvatarView from './AvatarView.vue'
-import GithubCommentsView from './GithubCommentsView.vue'
+import GithubCommentView from './GithubCommentView.vue'
+import GithubCommentsListView from './GithubCommentsListView.vue'
 import RelativeTime from './RelativeTime.vue'
 import { version } from './../../package.json'
 
 export function install(Vue) {
   Vue.component('avatar-view', AvatarView)
-  Vue.component('github-comments-view', GithubCommentsView)
+  Vue.component('github-comment-view', GithubCommentView)
+  Vue.component('github-comments-list-view', GithubCommentsListView)
   Vue.component('relative-time', RelativeTime)
 }
 
 export {
   AvatarView,
-  GithubCommentsView,
+  GithubCommentView,
+  GithubCommentsListView,
   RelativeTime
 }
 
